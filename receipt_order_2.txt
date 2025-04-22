@@ -1,0 +1,10 @@
+Order #2 (Delivery)
+-----------------------------------
+Pizza x3 = $26.97
+Pizza x3 = $26.97
+-----------------------------------
+Total: $53.94
+Delivery Address: 224 heroln
+Payment Method: Card
+Status: Pending
+-----------------------------------
