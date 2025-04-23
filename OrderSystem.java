@@ -109,7 +109,10 @@ public class OrderSystem {
                         System.out.println("1. Add Menu Item");
                         System.out.println("2. View Pending Orders");
                         System.out.println("3. Complete Order");
-                        System.out.println("4. Log Out");
+                        System.out.println("4. Modify Menu Item");
+                        System.out.println("5. Generate Sales Report");
+                        System.out.println("6. Log Out");
+
                         System.out.print("Choose option: ");
                         int staffChoice = safeIntInput(scanner);
                         scanner.nextLine(); // clear buffer
@@ -124,21 +127,34 @@ public class OrderSystem {
                                 restaurant.addMenuItem(new MenuItem(newId, name, price));
                                 System.out.println("✅ Menu item added.");
                                 break;
+                        
                             case 2:
                                 restaurant.showPendingOrders();
                                 break;
+                        
                             case 3:
                                 System.out.print("Enter order ID to complete: ");
                                 int id = safeIntInput(scanner);
                                 restaurant.completeOrder(id);
                                 break;
+                        
                             case 4:
+                                restaurant.modifyMenuItem(scanner);
+                                break;
+                        
+                            case 5:
+                                restaurant.generateSalesReport();
+                                break;
+                        
+                            case 6:
                                 loggedIn = false;
                                 System.out.println("Logged out.");
                                 break;
+                        
                             default:
                                 System.out.println("Invalid choice.");
                         }
+                        
                     }
                 } else {
                     System.out.println("❌ Invalid credentials.");
@@ -154,7 +170,7 @@ public class OrderSystem {
         scanner.close();
     }
 
-    private static int safeIntInput(Scanner scanner) {
+    public static int safeIntInput(Scanner scanner) {
         while (true) {
             try {
                 return scanner.nextInt();
@@ -164,8 +180,8 @@ public class OrderSystem {
             }
         }
     }
-
-    private static double safeDoubleInput(Scanner scanner) {
+    
+    public static double safeDoubleInput(Scanner scanner) {
         while (true) {
             try {
                 return scanner.nextDouble();
@@ -175,4 +191,5 @@ public class OrderSystem {
             }
         }
     }
+    
 }
