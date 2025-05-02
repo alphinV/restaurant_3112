@@ -38,49 +38,70 @@ public class OrderSystem {
 
                 Order order = new Order(type);
 
-                // Category filtering
-                System.out.println("Available Categories:");
-                Set<String> categories = restaurant.getCategories();
-                int count = 1;
-                for (String c : categories) {
-                    System.out.println(count++ + ". " + c);
-                }
-                System.out.print("Filter by category? (enter name or press Enter to skip): ");
-                String categoryFilter = scanner.nextLine().trim();
+                // === MULTI-CATEGORY ORDER LOOP ===
+                boolean ordering = true;
+                while (ordering) {
+                    System.out.println("\nAvailable Categories:");
+                    List<String> categoryList = new ArrayList<>(restaurant.getCategories());
+                    for (int i = 0; i < categoryList.size(); i++) {
+                        System.out.println((i + 1) + ". " + categoryList.get(i));
+                    }
+                    System.out.println("0. Finish ordering");
 
-                List<MenuItem> filteredMenu = restaurant.getMenu();
-                if (!categoryFilter.isEmpty()) {
-                    filteredMenu = restaurant.getMenuByCategory(categoryFilter);
-                }
+                    System.out.print("Choose a category number to view items: ");
+                    String input = scanner.nextLine().trim();
 
-                System.out.println("Menu:");
-                for (MenuItem item : filteredMenu) {
-                    System.out.println(item);
-                }
-
-                while (true) {
-                    System.out.print("Enter item ID to order (0 to stop): ");
-                    int id = safeIntInput(scanner);
-                    if (id == 0) break;
-
-                    MenuItem selectedItem = null;
-                    for (MenuItem m : restaurant.getMenu()) {
-                        if (m.getId() == id) {
-                            selectedItem = m;
-                            break;
-                        }
+                    if (input.equals("0")) {
+                        ordering = false;
+                        break;
                     }
 
-                    if (selectedItem != null) {
-                        System.out.print("Quantity: ");
-                        int qty = safeIntInput(scanner);
-                        if (qty > 0) {
-                            order.addItem(new OrderItem(selectedItem, qty));
+                    List<MenuItem> filteredMenu = new ArrayList<>();
+                    try {
+                        int index = Integer.parseInt(input);
+                        if (index >= 1 && index <= categoryList.size()) {
+                            String selectedCategory = categoryList.get(index - 1);
+                            filteredMenu = restaurant.getMenuByCategory(selectedCategory);
                         } else {
-                            System.out.println("Quantity must be greater than 0.");
+                            System.out.println("Invalid category number.");
+                            continue;
                         }
-                    } else {
-                        System.out.println("Invalid item ID.");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input.");
+                        continue;
+                    }
+
+                    // Show items in selected category
+                    System.out.println("\nItems in " + categoryList.get(Integer.parseInt(input) - 1) + ":");
+                    for (MenuItem item : filteredMenu) {
+                        System.out.println(item);
+                    }
+
+                    // Ordering items
+                    while (true) {
+                        System.out.print("Enter item ID to order (0 to go back to category list): ");
+                        int id = safeIntInput(scanner);
+                        if (id == 0) break;
+
+                        MenuItem selectedItem = null;
+                        for (MenuItem m : restaurant.getMenu()) {
+                            if (m.getId() == id) {
+                                selectedItem = m;
+                                break;
+                            }
+                        }
+
+                        if (selectedItem != null) {
+                            System.out.print("Quantity: ");
+                            int qty = safeIntInput(scanner);
+                            if (qty > 0) {
+                                order.addItem(new OrderItem(selectedItem, qty));
+                            } else {
+                                System.out.println("Quantity must be greater than 0.");
+                            }
+                        } else {
+                            System.out.println("Invalid item ID.");
+                        }
                     }
                 }
 
@@ -171,7 +192,6 @@ public class OrderSystem {
                             default:
                                 System.out.println("Invalid choice.");
                         }
-
                     }
                 } else {
                     System.out.println("❌ Invalid credentials.");
