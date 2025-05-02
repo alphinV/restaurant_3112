@@ -17,6 +17,24 @@ public class Restaurant {
         return menu;
     }
 
+    public List<MenuItem> getMenuByCategory(String category) {
+        List<MenuItem> filtered = new ArrayList<>();
+        for (MenuItem item : menu) {
+            if (item.getCategory().equalsIgnoreCase(category)) {
+                filtered.add(item);
+            }
+        }
+        return filtered;
+    }
+
+    public Set<String> getCategories() {
+        Set<String> categories = new TreeSet<>();
+        for (MenuItem item : menu) {
+            categories.add(item.getCategory());
+        }
+        return categories;
+    }
+
     public void addOrder(Order order) {
         orders.add(order);
     }
@@ -69,6 +87,8 @@ public class Restaurant {
         System.out.printf("Average Order Value: $%.2f%n", orderCount == 0 ? 0 : totalSales / orderCount);
         System.out.printf("Payment Breakdown: Cash - %d | Card - %d%n", cashCount, cardCount);
         System.out.println("----------------------");
+
+        VisualSalesReport.generate(orders);
     }
 
     public void modifyMenuItem(Scanner scanner) {
@@ -108,13 +128,13 @@ public class Restaurant {
             case 1:
                 System.out.print("New name: ");
                 String newName = scanner.nextLine();
-                menu.set(menu.indexOf(target), new MenuItem(target.getId(), newName, target.getPrice()));
+                menu.set(menu.indexOf(target), new MenuItem(target.getId(), newName, target.getPrice(), target.getCategory()));
                 System.out.println("✅ Name updated.");
                 break;
             case 2:
                 System.out.print("New price: ");
                 double newPrice = OrderSystem.safeDoubleInput(scanner);
-                menu.set(menu.indexOf(target), new MenuItem(target.getId(), target.getName(), newPrice));
+                menu.set(menu.indexOf(target), new MenuItem(target.getId(), target.getName(), newPrice, target.getCategory()));
                 System.out.println("✅ Price updated.");
                 break;
             case 3:

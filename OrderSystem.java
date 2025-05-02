@@ -5,11 +5,11 @@ public class OrderSystem {
         Scanner scanner = new Scanner(System.in);
         Restaurant restaurant = new Restaurant();
 
-        // Sample menu items
-        restaurant.addMenuItem(new MenuItem(1, "Burger", 5.99));
-        restaurant.addMenuItem(new MenuItem(2, "Pizza", 8.99));
-        restaurant.addMenuItem(new MenuItem(3, "Fries", 2.99));
-        restaurant.addMenuItem(new MenuItem(4, "Soda", 1.99));
+        // Sample menu items with categories
+        restaurant.addMenuItem(new MenuItem(1, "Burger", 5.99, "Main Course"));
+        restaurant.addMenuItem(new MenuItem(2, "Pizza", 8.99, "Main Course"));
+        restaurant.addMenuItem(new MenuItem(3, "Fries", 2.99, "Sides"));
+        restaurant.addMenuItem(new MenuItem(4, "Soda", 1.99, "Drinks"));
 
         while (true) {
             System.out.println("\n--- Restaurant System ---");
@@ -38,8 +38,23 @@ public class OrderSystem {
 
                 Order order = new Order(type);
 
+                // Category filtering
+                System.out.println("Available Categories:");
+                Set<String> categories = restaurant.getCategories();
+                int count = 1;
+                for (String c : categories) {
+                    System.out.println(count++ + ". " + c);
+                }
+                System.out.print("Filter by category? (enter name or press Enter to skip): ");
+                String categoryFilter = scanner.nextLine().trim();
+
+                List<MenuItem> filteredMenu = restaurant.getMenu();
+                if (!categoryFilter.isEmpty()) {
+                    filteredMenu = restaurant.getMenuByCategory(categoryFilter);
+                }
+
                 System.out.println("Menu:");
-                for (MenuItem item : restaurant.getMenu()) {
+                for (MenuItem item : filteredMenu) {
                     System.out.println(item);
                 }
 
@@ -123,38 +138,40 @@ public class OrderSystem {
                                 String name = scanner.nextLine();
                                 System.out.print("Enter item price: ");
                                 double price = safeDoubleInput(scanner);
+                                System.out.print("Enter item category: ");
+                                String category = scanner.nextLine();
                                 int newId = restaurant.getMenu().size() + 1;
-                                restaurant.addMenuItem(new MenuItem(newId, name, price));
+                                restaurant.addMenuItem(new MenuItem(newId, name, price, category));
                                 System.out.println("✅ Menu item added.");
                                 break;
-                        
+
                             case 2:
                                 restaurant.showPendingOrders();
                                 break;
-                        
+
                             case 3:
                                 System.out.print("Enter order ID to complete: ");
                                 int id = safeIntInput(scanner);
                                 restaurant.completeOrder(id);
                                 break;
-                        
+
                             case 4:
                                 restaurant.modifyMenuItem(scanner);
                                 break;
-                        
+
                             case 5:
                                 restaurant.generateSalesReport();
                                 break;
-                        
+
                             case 6:
                                 loggedIn = false;
                                 System.out.println("Logged out.");
                                 break;
-                        
+
                             default:
                                 System.out.println("Invalid choice.");
                         }
-                        
+
                     }
                 } else {
                     System.out.println("❌ Invalid credentials.");
@@ -180,7 +197,7 @@ public class OrderSystem {
             }
         }
     }
-    
+
     public static double safeDoubleInput(Scanner scanner) {
         while (true) {
             try {
@@ -191,5 +208,4 @@ public class OrderSystem {
             }
         }
     }
-    
 }

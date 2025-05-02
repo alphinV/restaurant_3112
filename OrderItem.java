@@ -11,6 +11,14 @@ public class OrderItem {
         return item.getPrice() * quantity;
     }
 
+    public MenuItem getItem() {
+        return item;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
     @Override
     public String toString() {
         return item.getName() + " x" + quantity + " = $" + String.format("%.2f", getTotalPrice());

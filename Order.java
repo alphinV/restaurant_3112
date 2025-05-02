@@ -91,5 +91,11 @@ public class Order {
             System.out.println("❌ Error writing receipt: " + e.getMessage());
         }
     }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+    
     
 }
+
