@@ -5,7 +5,6 @@ public class OrderSystem {
         Scanner scanner = new Scanner(System.in);
         Restaurant restaurant = new Restaurant();
 
-        // Sample menu items with categories
         restaurant.addMenuItem(new MenuItem(1, "Burger", 5.99, "Main Course"));
         restaurant.addMenuItem(new MenuItem(2, "Pizza", 8.99, "Main Course"));
         restaurant.addMenuItem(new MenuItem(3, "Fries", 2.99, "Sides"));
@@ -21,9 +20,8 @@ public class OrderSystem {
             int choice = safeIntInput(scanner);
 
             if (choice == 1) {
-                scanner.nextLine(); // clear buffer
+                scanner.nextLine(); 
 
-                // Validate order type
                 String type = "";
                 while (true) {
                     System.out.print("Takeout or Delivery? ");
@@ -38,7 +36,6 @@ public class OrderSystem {
 
                 Order order = new Order(type);
 
-                // === MULTI-CATEGORY ORDER LOOP ===
                 boolean ordering = true;
                 while (ordering) {
                     System.out.println("\nAvailable Categories:");
@@ -77,7 +74,6 @@ public class OrderSystem {
                         System.out.println(item);
                     }
 
-                    // Ordering items
                     while (true) {
                         System.out.print("Enter item ID to order (0 to go back to category list): ");
                         int id = safeIntInput(scanner);
@@ -105,7 +101,7 @@ public class OrderSystem {
                     }
                 }
 
-                scanner.nextLine(); // clear buffer
+                scanner.nextLine(); 
 
                 if ("Delivery".equalsIgnoreCase(type)) {
                     System.out.print("Enter delivery address: ");
@@ -136,7 +132,7 @@ public class OrderSystem {
                 restaurant.showPendingOrders();
 
             } else if (choice == 3) {
-                scanner.nextLine(); // clear buffer
+                scanner.nextLine(); 
                 if (StaffAuth.login(scanner)) {
                     System.out.println("✅ Logged in successfully!");
                     boolean loggedIn = true;
@@ -151,7 +147,7 @@ public class OrderSystem {
 
                         System.out.print("Choose option: ");
                         int staffChoice = safeIntInput(scanner);
-                        scanner.nextLine(); // clear buffer
+                        scanner.nextLine(); 
 
                         switch (staffChoice) {
                             case 1:
@@ -212,7 +208,7 @@ public class OrderSystem {
             try {
                 return scanner.nextInt();
             } catch (InputMismatchException e) {
-                scanner.nextLine(); // clear invalid input
+                scanner.nextLine(); 
                 System.out.print("Invalid input. Please enter a number: ");
             }
         }

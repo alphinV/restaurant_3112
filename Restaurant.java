@@ -122,7 +122,7 @@ public class Restaurant {
         System.out.println("3. Remove item");
         System.out.print("Choose option: ");
         int opt = OrderSystem.safeIntInput(scanner);
-        scanner.nextLine(); // clear buffer
+        scanner.nextLine(); 
 
         switch (opt) {
             case 1:

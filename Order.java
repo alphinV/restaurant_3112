@@ -86,9 +86,9 @@ public class Order {
             writer.write("Status: " + (isComplete ? "Complete" : "Pending") + "\n");
             writer.write("-----------------------------------\n");
     
-            System.out.println("📄 Receipt saved as: " + fileName);
+            System.out.println(" Receipt saved as: " + fileName);
         } catch (IOException e) {
-            System.out.println("❌ Error writing receipt: " + e.getMessage());
+            System.out.println(" Error writing receipt: " + e.getMessage());
         }
     }
 
